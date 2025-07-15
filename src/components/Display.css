@@ -1,0 +1,235 @@
+/* src/components/Display.css */
+:root {
+    --primary-blue: #007bff;
+    --light-blue: #e0f2f7;
+    --dark-blue: #0056b3;
+    --text-color: #333;
+    --background-white: #fff;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+
+    /* Cores de prioridade (as mesmas usadas nas outras páginas) */
+    --emergencia: #dc3545; /* Vermelho */
+    --muito-urgente: #fd7e14; /* Laranja */
+    --urgente: #ffc107; /* Amarelo */
+    --pouco-urgente: #28a745; /* Verde */
+    --nao-urgente: #17a2b8; /* Azul */
+
+    /* Cores de status */
+    --status-aguardando_triagem: #6c757d; /* Cinza */
+    --status-em_triagem: #ff8c00; /* Laranja mais escuro para triagem em andamento */
+    --status-aguardando_medico: #007bff; /* Azul primário para fila do médico */
+    --status-em_atendimento: #8a2be2; /* Roxo para atendimento médico */
+    --status-atendido: #28a745; /* Verde para concluído */
+}
+
+/* Removido body, html styles pois são globais e devem estar em index.css ou App.css */
+
+.display-wrapper {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+
+.main-display {
+    flex: 3;
+    background-color: var(--background-white);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    box-shadow: 2px 0 10px var(--shadow-color);
+    text-align: center;
+}
+
+.main-display h1 {
+    color: var(--dark-blue);
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.current-patient-info {
+    background-color: var(--primary-blue);
+    color: var(--background-white);
+    padding: 40px 60px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    max-width: 90%;
+    margin: 0 auto;
+    animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); }
+    100% { transform: scale(1.02); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3); }
+}
+
+.current-patient-info .name {
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    line-height: 1.1;
+}
+
+.current-patient-info .ficha,
+.current-patient-info .location {
+    font-size: 2.2rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.sidebar-queue {
+    flex: 1;
+    background-color: var(--light-blue);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+}
+
+.sidebar-queue h2 {
+    color: var(--dark-blue);
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.next-patients-list {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+.next-patients-list li {
+    background-color: var(--background-white);
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    border-left: 8px solid var(--primary-blue);
+}
+
+.next-patients-list li strong {
+    display: block;
+    font-size: 1.3rem;
+    color: var(--primary-blue);
+    margin-bottom: 5px;
+}
+
+.next-patients-list li span {
+    font-size: 1rem;
+    color: var(--text-color);
+    display: block;
+}
+
+.priority-display-tag {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    color: var(--background-white);
+    font-size: 0.75rem;
+    text-transform: capitalize;
+    margin-top: 5px;
+}
+
+.priority-display-tag.emergencia { background-color: var(--emergencia); }
+.priority-display-tag.muito-urgente { background-color: var(--muito-urgente); }
+.priority-display-tag.urgente { background-color: var(--urgente); color: var(--text-color); }
+.priority-display-tag.pouco-urgente { background-color: var(--pouco-urgente); }
+.priority-display-tag.nao-urgente { background-color: var(--nao-urgente); }
+
+.empty-display-state {
+    color: var(--dark-blue);
+    font-size: 1.5rem;
+    text-align: center;
+    padding: 50px;
+    width: 100%;
+}
+
+.back-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9rem;
+    z-index: 100;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+.back-button svg {
+    fill: white;
+    height: 18px;
+    width: 18px;
+}
+
+@media (max-width: 1024px) {
+    .main-display .current-patient-info .name {
+        font-size: 3rem;
+    }
+    .main-display .current-patient-info .ficha,
+    .main-display .current-patient-info .location {
+        font-size: 1.8rem;
+    }
+    .sidebar-queue h2 {
+        font-size: 1.5rem;
+    }
+    .next-patients-list li strong {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .display-wrapper {
+        flex-direction: column;
+    }
+    .main-display, .sidebar-queue {
+        flex: none;
+        width: 100%;
+    }
+    .main-display {
+        min-height: 50vh;
+        padding: 20px;
+    }
+    .sidebar-queue {
+        height: 50vh;
+        padding: 15px;
+    }
+    .main-display h1 {
+        font-size: 2rem;
+    }
+    .current-patient-info {
+        padding: 30px 40px;
+    }
+    .current-patient-info .name {
+        font-size: 2.5rem;
+    }
+    .current-patient-info .ficha,
+    .current-patient-info .location {
+        font-size: 1.5rem;
+    }
+    .sidebar-queue h2 {
+        font-size: 1.3rem;
+    }
+    .next-patients-list li {
+        padding: 12px;
+        border-left-width: 5px;
+    }
+    .next-patients-list li strong {
+        font-size: 1rem;
+    }
+}
