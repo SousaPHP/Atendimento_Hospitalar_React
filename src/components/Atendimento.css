@@ -1,5 +1,8 @@
 /* src/components/Atendimento.css */
+
+/* Essa é a parte que define todas as cores usadas na página */
 :root {
+    /* Cores principais da interface */
     --primary-blue: #007bff;
     --light-blue: #e0f2f7;
     --dark-blue: #0056b3;
@@ -7,23 +10,22 @@
     --background-white: #fff;
     --shadow-color: rgba(0, 0, 0, 0.1);
 
-    /* Cores de prioridade */
-    --emergencia: #dc3545; /* Vermelho */
-    --muito-urgente: #fd7e14; /* Laranja */
-    --urgente: #ffc107; /* Amarelo */
-    --pouco-urgente: #28a745; /* Verde */
-    --nao-urgente: #17a2b8; /* Azul */
+    /* Cores para os níveis de prioridade dos pacientes */
+    --emergencia: #dc3545; 
+    --muito-urgente: #fd7e14; 
+    --urgente: #ffc107; 
+    --pouco-urgente: #28a745; 
+    --nao-urgente: #17a2b8; 
 
-    /* Cores de status */
-    --status-aguardando_triagem: #6c757d; /* Cinza */
-    --status-em_triagem: #ff8c00; /* Laranja mais escuro para triagem em andamento */
-    --status-aguardando_medico: #007bff; /* Azul primário para fila do médico */
-    --status-em_atendimento: #8a2be2; /* Roxo para atendimento médico */
-    --status-atendido: #28a745; /* Verde para concluído */
+    /* Cores para o status do atendimento */
+    --status-aguardando_triagem: #6c757d; 
+    --status-em_triagem: #ff8c00; 
+    --status-aguardando_medico: #007bff; 
+    --status-em_atendimento: #8a2be2; 
+    --status-atendido: #28a745; 
 }
 
-/* Removido body, html styles pois são globais e devem estar em index.css ou App.css */
-
+/* parte do container principal da página */
 .container {
     background-color: var(--background-white);
     padding: 40px;
@@ -36,6 +38,7 @@
     position: relative;
 }
 
+/*  parte do botão de voltar */
 .back-button {
     position: absolute;
     top: 20px;
@@ -66,6 +69,7 @@
     fill: var(--dark-blue);
 }
 
+/*  parte dos títulos (h1 e h2) */
 h1 {
     color: var(--primary-blue);
     margin-bottom: 30px;
@@ -80,6 +84,7 @@ h2 {
     text-align: left;
 }
 
+/* parte dos botões de controle da fila  */
 .queue-controls {
     display: flex;
     justify-content: flex-end;
@@ -103,6 +108,7 @@ h2 {
     transform: translateY(-2px);
 }
 
+/* parte da tabela de pacientes */
 .patient-table {
     width: 100%;
     border-collapse: collapse;
@@ -140,6 +146,7 @@ h2 {
     background-color: #dbeaf0;
 }
 
+/* parte das etiquetas coloridas (prioridade e status) */
 .priority-tag, .status-tag {
     display: inline-block;
     padding: 5px 10px;
@@ -149,21 +156,21 @@ h2 {
     font-size: 0.85rem;
     text-transform: capitalize;
 }
-
-/* Cores das tags de prioridade */
+/* Define cor de fundo para cada tipo de prioridade */
 .priority-tag.emergencia { background-color: var(--emergencia); }
 .priority-tag.muito-urgente { background-color: var(--muito-urgente); }
 .priority-tag.urgente { background-color: var(--urgente); color: var(--text-color); }
 .priority-tag.pouco-urgente { background-color: var(--pouco-urgente); }
 .priority-tag.nao-urgente { background-color: var(--nao-urgente); }
 
-/* Cores das tags de status */
+/* Define cor de fundo para cada tipo de status */
 .status-tag.aguardando_triagem { background-color: var(--status-aguardando_triagem); }
 .status-tag.em_triagem { background-color: var(--status-em_triagem); }
 .status-tag.aguardando_medico { background-color: var(--status-aguardando_medico); }
 .status-tag.em_atendimento { background-color: var(--status-em_atendimento); }
 .status-tag.atendido { background-color: var(--status-atendido); }
 
+/* parte dos botões de ação dentro da tabela */
 .action-buttons button {
     background-color: var(--primary-blue);
     color: var(--background-white);
@@ -186,6 +193,7 @@ h2 {
     transform: translateY(-1px);
 }
 
+/*parte da mensagem para quando a tabela está vazia */
 .empty-state {
     text-align: center;
     padding: 30px;
@@ -193,12 +201,14 @@ h2 {
     font-size: 1.1rem;
 }
 
-/* Responsividade para tabelas */
+/* ajusta a tabela para celulares e telas pequenas */
 @media (max-width: 768px) {
+    /* Esconde o cabeçalho da tabela */
     .patient-table thead {
         display: none;
     }
 
+    /* Faz com que cada linha da tabela vire um "card" */
     .patient-table, .patient-table tbody, .patient-table tr, .patient-table td {
         display: block;
         width: 100%;
@@ -211,13 +221,14 @@ h2 {
         box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
 
+    /* Ajusta as células para o formato de card */
     .patient-table td {
         text-align: right;
         padding-left: 50%;
         position: relative;
         border: none;
     }
-
+    /* Adiciona o nome da coluna antes do dado */
     .patient-table td::before {
         content: attr(data-label);
         position: absolute;
@@ -230,6 +241,7 @@ h2 {
         color: var(--dark-blue);
     }
 
+    /* Faz os botões de ação ocuparem toda a largura */
     .action-buttons button {
         width: 100%;
         margin: 5px 0;

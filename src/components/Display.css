@@ -1,4 +1,6 @@
 /* src/components/Display.css */
+
+/*  parte que define as cores usadas na tela de display. */
 :root {
     --primary-blue: #007bff;
     --light-blue: #e0f2f7;
@@ -7,31 +9,31 @@
     --background-white: #fff;
     --shadow-color: rgba(0, 0, 0, 0.1);
 
-    /* Cores de prioridade (as mesmas usadas nas outras páginas) */
-    --emergencia: #dc3545; /* Vermelho */
-    --muito-urgente: #fd7e14; /* Laranja */
-    --urgente: #ffc107; /* Amarelo */
-    --pouco-urgente: #28a745; /* Verde */
-    --nao-urgente: #17a2b8; /* Azul */
+    /* Cores para os níveis de prioridade */
+    --emergencia: #dc3545;
+    --muito-urgente: #fd7e14;
+    --urgente: #ffc107;
+    --pouco-urgente: #28a745;
+    --nao-urgente: #17a2b8;
 
-    /* Cores de status */
-    --status-aguardando_triagem: #6c757d; /* Cinza */
-    --status-em_triagem: #ff8c00; /* Laranja mais escuro para triagem em andamento */
-    --status-aguardando_medico: #007bff; /* Azul primário para fila do médico */
-    --status-em_atendimento: #8a2be2; /* Roxo para atendimento médico */
-    --status-atendido: #28a745; /* Verde para concluído */
+    /* Cores para o status do atendimento */
+    --status-aguardando_triagem: #6c757d;
+    --status-em_triagem: #ff8c00;
+    --status-aguardando_medico: #007bff;
+    --status-em_atendimento: #8a2be2;
+    --status-atendido: #28a745;
 }
 
-/* Removido body, html styles pois são globais e devem estar em index.css ou App.css */
-
+/*   organiza a tela em duas seções (painel principal e fila). */
 .display-wrapper {
     display: flex;
     width: 100vw;
     height: 100vh;
 }
 
+/*  painel principal (lado esquerdo), onde o paciente chamado aparece. */
 .main-display {
-    flex: 3;
+    flex: 3; /* Faz essa parte ser 3x maior que a fila */
     background-color: var(--background-white);
     display: flex;
     flex-direction: column;
@@ -49,6 +51,7 @@
     font-weight: 700;
 }
 
+/* box azul que destaca a informação do paciente atual. */
 .current-patient-info {
     background-color: var(--primary-blue);
     color: var(--background-white);
@@ -57,14 +60,16 @@
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
     max-width: 90%;
     margin: 0 auto;
-    animation: pulse 1.5s infinite alternate;
+    animation: pulse 1.5s infinite alternate; /* Aplica a animação de pulsar */
 }
 
+/* a animação de "pulsar" para o box do paciente. */
 @keyframes pulse {
     0% { transform: scale(1); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); }
     100% { transform: scale(1.02); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3); }
 }
 
+/* Estilos para os textos dentro do box azul. */
 .current-patient-info .name {
     font-size: 4rem;
     font-weight: 700;
@@ -79,14 +84,15 @@
     margin-bottom: 10px;
 }
 
+/* fila de espera (barra lateral direita). */
 .sidebar-queue {
-    flex: 1;
+    flex: 1; /* Faz essa parte ocupar 1/4 da tela */
     background-color: var(--light-blue);
     padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow-y: auto;
+    overflow-y: auto; /* Adiciona barra de rolagem se a lista for longa */
 }
 
 .sidebar-queue h2 {
@@ -97,6 +103,7 @@
     text-align: center;
 }
 
+/* lista dos próximos pacientes. */
 .next-patients-list {
     list-style: none;
     padding: 0;
@@ -126,6 +133,7 @@
     display: block;
 }
 
+/*  etiquetas de prioridade na fila de espera. */
 .priority-display-tag {
     display: inline-block;
     padding: 4px 8px;
@@ -143,6 +151,7 @@
 .priority-display-tag.pouco-urgente { background-color: var(--pouco-urgente); }
 .priority-display-tag.nao-urgente { background-color: var(--nao-urgente); }
 
+/* parte da mensagem para quando não há ninguém na fila. */
 .empty-display-state {
     color: var(--dark-blue);
     font-size: 1.5rem;
@@ -151,8 +160,9 @@
     width: 100%;
 }
 
+/* parte do botão de voltar, específico para esta tela. */
 .back-button {
-    position: fixed;
+    position: fixed; /* Fica fixo na tela mesmo com rolagem */
     top: 20px;
     left: 20px;
     background-color: rgba(0, 0, 0, 0.5);
@@ -164,7 +174,7 @@
     align-items: center;
     gap: 5px;
     font-size: 0.9rem;
-    z-index: 100;
+    z-index: 100; /* Garante que fique acima de outros elementos */
     transition: background-color 0.3s ease;
 }
 
@@ -177,6 +187,7 @@
     width: 18px;
 }
 
+/* parte que ajusta o layout para telas menores  */
 @media (max-width: 1024px) {
     .main-display .current-patient-info .name {
         font-size: 3rem;
@@ -193,7 +204,9 @@
     }
 }
 
+/* ajusta o layout para celulares  */
 @media (max-width: 768px) {
+    /* Muda a direção de lado a lado para um em cima do outro */
     .display-wrapper {
         flex-direction: column;
     }

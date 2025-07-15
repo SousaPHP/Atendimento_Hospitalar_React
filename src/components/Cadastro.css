@@ -1,4 +1,6 @@
 /* src/components/Cadastro.css */
+
+/* parte que define as cores usadas no formulário. */
 :root {
     --primary-blue: #007bff;
     --light-blue: #e0f2f7;
@@ -9,8 +11,7 @@
     --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
-/* Removido body, html styles pois são globais e devem estar em index.css ou App.css */
-
+/* parte do container principal da página de cadastro. */
 .container {
     background-color: var(--background-white);
     padding: 40px;
@@ -23,6 +24,7 @@
     position: relative;
 }
 
+/* parte do botão de voltar. */
 .back-button {
     position: absolute;
     top: 20px;
@@ -53,17 +55,20 @@
     fill: var(--dark-blue);
 }
 
+/* parte do título principal (H1). */
 h1 {
     color: var(--primary-blue);
     margin-bottom: 30px;
     font-weight: 700;
 }
 
+/* parte que agrupa cada campo do formulário */
 .form-group {
     margin-bottom: 20px;
     text-align: left;
 }
 
+/* parte dos rótulos (labels) dos campos. */
 .form-group label {
     display: block;
     margin-bottom: 8px;
@@ -71,6 +76,7 @@ h1 {
     color: var(--dark-blue);
 }
 
+/* parte dos campos de preenchimento */
 .form-group input[type="text"],
 .form-group input[type="number"],
 .form-group select {
@@ -83,6 +89,7 @@ h1 {
     transition: border-color 0.3s ease;
 }
 
+/* Efeito de destaque quando um campo é selecionado. */
 .form-group input[type="text"]:focus,
 .form-group input[type="number"]:focus,
 .form-group select:focus {
@@ -91,6 +98,7 @@ h1 {
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
 }
 
+/* Adiciona uma seta personalizada ao campo de seleção  */
 .form-group select {
     appearance: none;
     -webkit-appearance: none;
@@ -101,6 +109,7 @@ h1 {
     cursor: pointer;
 }
 
+/*  parte do botão de enviar o formulário. */
 button {
     background-color: var(--primary-blue);
     color: var(--background-white);

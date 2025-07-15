@@ -1,4 +1,6 @@
 /* src/components/Triagem.css */
+
+/*  parte que define as cores usadas na página de triagem. */
 :root {
     --primary-blue: #007bff;
     --light-blue: #e0f2f7;
@@ -12,16 +14,15 @@
     --pouco-urgente: #28a745;
     --nao-urgente: #17a2b8;
 
-    /* Novos status */
+    /* Cores para o status do paciente */
     --status-aguardando_triagem: #6c757d; /* Cinza */
-    --status-em_triagem: #ff8c00; /* Laranja mais escuro para triagem em andamento */
-    --status-aguardando_medico: #007bff; /* Azul primário para fila do médico */
-    --status-em_atendimento: #8a2be2; /* Roxo para atendimento médico */
-    --status-atendido: #28a745; /* Verde para concluído */
+    --status-em_triagem: #ff8c00; /* Laranja mais escuro */
+    --status-aguardando_medico: #007bff; /* Azul primário */
+    --status-em_atendimento: #8a2be2; /* Roxo */
+    --status-atendido: #28a745; /* Verde */
 }
 
-/* Removido body, html styles pois são globais e devem estar em index.css ou App.css */
-
+/* parte do container principal que envolve todo o conteúdo. */
 .container {
     background-color: var(--background-white);
     padding: 40px;
@@ -34,6 +35,7 @@
     position: relative;
 }
 
+/* parte do botão de voltar. */
 .back-button {
     position: absolute;
     top: 20px;
@@ -64,12 +66,15 @@
     fill: var(--dark-blue);
 }
 
+/*parte do título principal (h1) */
 h1 {
     color: var(--primary-blue);
     margin-bottom: 30px;
     font-weight: 700;
 }
 
+
+/*parte dos botões de controle (Ex: Chamar paciente). */
 .controls {
     display: flex;
     justify-content: space-between;
@@ -96,7 +101,7 @@ h1 {
     transform: translateY(-2px);
 }
 
-/* Nova área para paciente em triagem */
+/* parte do box que destaca o paciente que está em triagem agora. */
 .patient-in-triage-box {
     background-color: var(--light-blue);
     border: 1px solid var(--primary-blue);
@@ -127,6 +132,7 @@ h1 {
     color: var(--text-color);
 }
 
+/* parte da lista de pacientes aguardando triagem. */
 .patient-list {
     width: 100%;
     border-collapse: collapse;
@@ -163,6 +169,7 @@ h1 {
     background-color: #dbeaf0;
 }
 
+/* parte do campo de seleção de prioridade. */
 .priority-select {
     padding: 8px;
     border: 1px solid var(--border-color);
@@ -173,7 +180,7 @@ h1 {
     color: var(--text-color);
 }
 
-/* Estilos para as cores das prioridades */
+/* parte das etiquetas coloridas de prioridade e status. */
 .priority-tag {
     display: inline-block;
     padding: 5px 10px;
@@ -205,6 +212,7 @@ h1 {
 .status-tag.em_atendimento { background-color: var(--status-em_atendimento); }
 .status-tag.atendido { background-color: var(--status-atendido); }
 
+/* parte da mensagem para quando a lista está vazia. */
 .empty-state {
     text-align: center;
     padding: 50px;
@@ -212,6 +220,7 @@ h1 {
     font-size: 1.1rem;
 }
 
+/* parte dos botões de ação na tabela */
 .action-buttons button {
     background-color: var(--primary-blue);
     color: var(--background-white);
@@ -226,7 +235,7 @@ h1 {
 }
 
 .action-buttons button.btn-red {
-    background-color: #dc3545; /* Cor vermelha para Concluir Triagem */
+    background-color: #dc3545; /* Cor vermelha */
 }
 
 .action-buttons button:hover {
@@ -234,12 +243,14 @@ h1 {
     transform: translateY(-1px);
 }
 
-/* Responsividade para a tabela */
+/* parte que ajusta a tabela para celulares e telas pequenas. */
 @media (max-width: 768px) {
+    /* Esconde o cabeçalho da tabela */
     .patient-list thead {
         display: none;
     }
 
+    /* Faz com que cada linha da tabela vire um "card" */
     .patient-list, .patient-list tbody, .patient-list tr, .patient-list td {
         display: block;
         width: 100%;
@@ -252,13 +263,14 @@ h1 {
         box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
 
+    /* Ajusta as células para o formato de card */
     .patient-list td {
         text-align: right;
         padding-left: 50%;
         position: relative;
         border: none;
     }
-
+    /* Adiciona o nome da coluna antes do dado */
     .patient-list td::before {
         content: attr(data-label);
         position: absolute;
@@ -271,6 +283,7 @@ h1 {
         color: var(--dark-blue);
     }
 
+    /* Faz os botões de controle ocuparem toda a largura */
     .controls {
         flex-direction: column;
         align-items: stretch;
