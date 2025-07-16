@@ -43,6 +43,7 @@
     position: absolute;
     top: 20px;
     left: 20px;
+    width: 200px;
     background: none;
     border: none;
     font-size: 1.2rem;
@@ -101,6 +102,11 @@ h2 {
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
+}
+#sugerirProximo:disabled {
+  background-color: gray;
+  color: #ccc;
+  cursor: not-allowed;
 }
 
 .queue-controls button:hover {

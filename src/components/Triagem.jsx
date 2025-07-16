@@ -7,28 +7,28 @@ function Triagem() {
   const [pacientes, setPacientes] = useState([]);
   const [pacienteEmTriagem, setPacienteEmTriagem] = useState(null);
 
-  const atualizarPacientes = () => {
-    const pacienteInfo = carregarPacientes();
-    setPacientes(pacienteInfo);
+  const loadAndSetPatients = () => {
+    const loadedPatients = carregarPacientes();
+    setPacientes(loadedPatients);
 
-    const currentTriagePatient = pacienteInfo.find(p => p.status === 'em_triagem');
+    const currentTriagePatient = loadedPatients.find(p => p.status === 'em_triagem');
     setPacienteEmTriagem(currentTriagePatient);
   };
 
   useEffect(() => {
-    atualizarPacientes();
+    loadAndSetPatients();
   }, []); 
 
   const atualizarPriorPaciente = (pacienteFicha, newData) => {
-    let pacientes = atualizarPacientes();
+    let pacientes = carregarPacientes();
     const pacienteIndex = pacientes.findIndex(p => p.ficha === pacienteFicha);
 
     if (pacienteIndex !== -1) {
-            const updatedPacientes = pacientes.map((p, index) =>
+      const updatedPacientes = pacientes.map((p, index) =>
         index === pacienteIndex ? { ...p, ...newData } : p
       );
       salvarPacientes(updatedPacientes);
-      atualizarPacientes();
+      loadAndSetPatients();
     }
   };
 
@@ -47,21 +47,16 @@ function Triagem() {
     }
 
     const nextPaciente = sortedAguardandoTriagem[0];
-    atualizarPriorPaciente(nextPaciente.ficha, { status: 'em_triagem' }); // Muda o status para 'em_triagem'
+    atualizarPriorPaciente(nextPaciente.ficha, { status: 'em_triagem' }); 
     alert(`Chamando ${nextPaciente.nome} (Ficha: ${nextPaciente.ficha}) para a triagem.`);
   };
 
-  const encaminharConsultorio = (pacienteFicha) => {
-    atualizarPriorPaciente(pacienteFicha, { status: 'aguardando_medico' });
-    alert(`Paciente ${pacienteFicha} encaminhado para atendimento médico.`);
-  };
-
-  const concluirTriagemPrincipal = (pacienteFicha) => {
+  const concluirTriagem = (pacienteFicha) => {
     atualizarPriorPaciente(pacienteFicha, { status: 'aguardando_medico' });
     alert(`Triagem do paciente ${pacienteFicha} concluída. Encaminhado para atendimento médico.`);
   };
 
-  const tabelaTriagem = () => {
+  const renderTriageQueueList = () => {
     const aguardandoTriagemPacientes = pacientes.filter(p => p.status === 'aguardando_triagem');
     const sortedPacientes = sortPacientesByPriority(aguardandoTriagemPacientes);
 
@@ -96,8 +91,8 @@ function Triagem() {
             <option value="pouco-urgente">Pouco Urgente</option>
             <option value="nao-urgente">Não Urgente</option>
           </select>
-          <button onClick={() => encaminharConsultorio(paciente.ficha)} style={{ marginLeft: '10px' }}>
-            Encaminhar Consultório
+          <button onClick={() => concluirTriagem(paciente.ficha)} style={{ marginLeft: '10px' }}>
+            Concluir Triagem
           </button>
         </td>
       </tr>
@@ -133,6 +128,7 @@ function Triagem() {
         </button>
       </div>
 
+      {/* Área para o paciente atualmente em triagem */}
       {pacienteEmTriagem ? (
         <div id="patientInTriageBox" className="patient-in-triage-box">
           <div className="info">
@@ -154,13 +150,13 @@ function Triagem() {
               </select>
             </span>
           </div>
-          <button onClick={() => concluirTriagemPrincipal(pacienteEmTriagem.ficha)} className="btn-red">
+          <button onClick={() => concluirTriagem(pacienteEmTriagem.ficha)} className="btn-red">
             Concluir Triagem
           </button>
         </div>
       ) : (
         <div id="patientInTriageBox" className="patient-in-triage-box" style={{ display: 'none' }}>
-
+          {/* Este div vazio é para manter a estrutura, mas não será visível */}
         </div>
       )}
 
@@ -177,7 +173,7 @@ function Triagem() {
           </tr>
         </thead>
         <tbody>
-          {tabelaTriagem()}
+          {renderTriageQueueList()}
         </tbody>
       </table>
 

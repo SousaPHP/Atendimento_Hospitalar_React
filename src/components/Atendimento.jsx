@@ -1,48 +1,19 @@
-// src/components/Atendimento.jsx
 import React, { useState, useEffect } from 'react';
-import { salvarPacientes, carregarPacientes } from '../utils/localStorage';
+import { salvarPacientes, carregarPacientes, sortPacientesByPriority } from '../utils/localStorage';
 import './Atendimento.css';
 
-// Recebe a prop onBackToMenu
 function Atendimento({ onBackToMenu }) {
   const [pacientes, setPacientes] = useState([]);
 
-  // Mapeamento de prioridades para um valor numérico (quanto menor, maior a prioridade)
-  const priorityOrder = {
-    'emergencia': 1,
-    'muito-urgente': 2,
-    'urgente': 3,
-    'pouco-urgente': 4,
-    'nao-urgente': 5
+  const atualizarPacientes = () => {
+    const pacienteInfo = carregarPacientes();
+    setPacientes(pacienteInfo);
   };
 
-  // Função de ordenação de pacientes por prioridade
-  const sortPacientesByPriority = (pacientesArray) => {
-    return [...pacientesArray].sort((a, b) => {
-      const priorityA = priorityOrder[a.prioridade] || 99;
-      const priorityB = priorityOrder[b.prioridade] || 99;
-
-      if (priorityA === priorityB) {
-        const fichaA = parseInt(a.ficha.replace('F', ''));
-        const fichaB = parseInt(b.ficha.replace('F', ''));
-        return fichaA - fichaB;
-      }
-      return priorityA - priorityB;
-    });
-  };
-
-  // Função para carregar e atualizar o estado dos pacientes
-  const loadAndSetPatients = () => {
-    const loadedPatients = carregarPacientes();
-    setPacientes(loadedPatients);
-  };
-
-  // Efeito para carregar os pacientes quando o componente é montado
   useEffect(() => {
-    loadAndSetPatients();
-  }, []); // O array vazio garante que o efeito rode apenas uma vez na montagem
+    atualizarPacientes();
+  }, []); 
 
-  // Função para atualizar um paciente específico
   const updatePaciente = (pacienteFicha, newData) => {
     let currentPacientes = carregarPacientes();
     const pacienteIndex = currentPacientes.findIndex(p => p.ficha === pacienteFicha);
@@ -52,12 +23,11 @@ function Atendimento({ onBackToMenu }) {
         index === pacienteIndex ? { ...p, ...newData } : p
       );
       salvarPacientes(updatedPacientes);
-      loadAndSetPatients(); // Recarrega e atualiza o estado
+      atualizarPacientes(); 
     }
   };
 
-  // Inicia o atendimento de um paciente
-  const handleStartAttendance = (pacienteFicha) => {
+  const iniciarAtendimento = (pacienteFicha) => {
     const currentPatientInAttendance = pacientes.find(p => p.status === 'em_atendimento');
 
     if (currentPatientInAttendance) {
@@ -69,22 +39,13 @@ function Atendimento({ onBackToMenu }) {
     alert(`Atendimento do paciente ${pacienteFicha} iniciado.`);
   };
 
-  // Conclui o atendimento de um paciente
-  const handleConcluirAttendance = (pacienteFicha) => {
+  const concluirAtendimento = (pacienteFicha) => {
     updatePaciente(pacienteFicha, { status: 'atendido', conclusionTime: new Date().toLocaleString() });
     alert(`Atendimento do paciente ${pacienteFicha} concluído.`);
+    document.getElementById("sugerirProximo").disabled = false;
   };
 
-  // Lógica para o botão "Sugerir Próximo Paciente"
-  const handleSuggestNextPatient = () => {
-    const currentPatientInAttendance = pacientes.find(p => p.status === 'em_atendimento');
-
-    if (currentPatientInAttendance) {
-      alert(`O paciente ${currentPatientInAttendance.nome} já está em atendimento. Por favor, conclua o atendimento atual antes de sugerir um novo.`);
-      return;
-    }
-
-    // Filtra pacientes que estão aguardando médico
+  const sugerirProximoPaciente = () => {
     const aguardandoMedico = pacientes.filter(p => p.status === 'aguardando_medico');
     const sortedAguardandoMedico = sortPacientesByPriority(aguardandoMedico);
 
@@ -92,15 +53,15 @@ function Atendimento({ onBackToMenu }) {
       alert('Não há mais pacientes aguardando na fila para sugerir.');
       return;
     }
-
     const nextPaciente = sortedAguardandoMedico[0];
-    // Ao sugerir, já mudamos o status para 'em_atendimento' para que ele apareça no Display
+   
     updatePaciente(nextPaciente.ficha, { status: 'em_atendimento', calledTime: new Date().toLocaleString() });
     alert(`Chamando ${nextPaciente.nome} (Ficha: ${nextPaciente.ficha}) para o atendimento.`);
+    document.getElementById("sugerirProximo").disabled = true;
   };
 
-  // Renderiza a fila de pacientes (aguardando médico e em atendimento)
-  const renderPatientQueue = () => {
+ 
+  const tabelaPacientes = () => {
     const queuePacientes = pacientes.filter(p => p.status === 'aguardando_medico' || p.status === 'em_atendimento');
     const sortedQueue = sortPacientesByPriority(queuePacientes);
 
@@ -129,10 +90,10 @@ function Atendimento({ onBackToMenu }) {
           </td>
           <td data-label="Ações" className="action-buttons">
             {!isBeingAttended && !hasPatientInAttendance ? (
-              <button onClick={() => handleStartAttendance(paciente.ficha)}>Iniciar Atendimento</button>
+              <button onClick={() => iniciarAtendimento(paciente.ficha)}>Iniciar Atendimento</button>
             ) : null}
             {isBeingAttended ? (
-              <button className="btn-danger" onClick={() => handleConcluirAttendance(paciente.ficha)}>Concluir Atendimento</button>
+              <button className="btn-danger" onClick={() => concluirAtendimento(paciente.ficha)}>Concluir Atendimento</button>
             ) : null}
           </td>
         </tr>
@@ -140,8 +101,8 @@ function Atendimento({ onBackToMenu }) {
     });
   };
 
-  // Renderiza o histórico de pacientes atendidos
-  const renderAttendedHistory = () => {
+
+  const tabelaHistorico = () => {
     const attendedPacientes = pacientes.filter(p => p.status === 'atendido');
     attendedPacientes.sort((a, b) => new Date(b.conclusionTime) - new Date(a.conclusionTime));
 
@@ -166,6 +127,14 @@ function Atendimento({ onBackToMenu }) {
     ));
   };
 
+
+
+
+
+
+
+
+
   return (
     <div className="container">
       <button onClick={onBackToMenu} className="back-button">
@@ -180,7 +149,7 @@ function Atendimento({ onBackToMenu }) {
 
       <h2>Fila de Atendimento</h2>
       <div className="queue-controls">
-        <button onClick={handleSuggestNextPatient} disabled={pacientes.some(p => p.status === 'em_atendimento')}>
+        <button id="sugerirProximo" onClick={sugerirProximoPaciente} disabled={pacientes.some(p => p.status === 'em_atendimento')}>
           Sugerir Próximo Paciente
         </button>
       </div>
@@ -196,7 +165,7 @@ function Atendimento({ onBackToMenu }) {
           </tr>
         </thead>
         <tbody>
-          {renderPatientQueue()}
+          {tabelaPacientes()}
         </tbody>
       </table>
 
@@ -212,7 +181,7 @@ function Atendimento({ onBackToMenu }) {
           </tr>
         </thead>
         <tbody>
-          {renderAttendedHistory()}
+          {tabelaHistorico()}
         </tbody>
       </table>
     </div>
