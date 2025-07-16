@@ -29,3 +29,27 @@ export function gerarFicha() {
 
   return 'F' + numero;
 }
+
+//Ordena pacientes por prioridade
+export function sortPacientesByPriority(pacientesArray) {
+  const prioridade = {
+    'emergencia': 1,
+    'muito-urgente': 2,
+    'urgente': 3,
+    'pouco-urgente': 4,
+    'nao-urgente': 5
+  };
+
+  return [...pacientesArray].sort(function (a, b) {
+    const prioridadeA = prioridade[a.prioridade] || 99;
+    const prioridadeB = prioridade[b.prioridade] || 99;
+
+    if (prioridadeA === prioridadeB) {
+      const fichaA = parseInt(a.ficha.replace('F', ''));
+      const fichaB = parseInt(b.ficha.replace('F', ''));
+      return fichaA - fichaB;
+    }
+
+    return prioridadeA - prioridadeB;
+  });
+}
