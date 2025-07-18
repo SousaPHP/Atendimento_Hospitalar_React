@@ -11,6 +11,12 @@ O sistema permite gerenciar o fluxo de pacientes, desde o cadastro até o fim do
 
 Aplicação Online (Vercel): https://atendimento-hospitalar-react.vercel.app/
 
+## 😎 Equipe
+
+ * [Vivian](https://github.com/Vivianx1918) 
+ * Daniel Victor de Sousa
+ * [Paulo Henrique](https://github.com/SousaPHP)
+ 
 ## 🚀 Funcionalidades Chave
 
 Nosso sistema é modular, dividido em componentes React que representam cada etapa do fluxo de atendimento:
