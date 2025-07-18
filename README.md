@@ -14,7 +14,7 @@ Aplicação Online (Vercel): https://atendimento-hospitalar-react.vercel.app/
 ## 😎 Equipe
 
  * [Vivian](https://github.com/Vivianx1918) 
- * Daniel Victor de Sousa
+ * [Daniel Victor](https://github.com/danielvincks)
  * [Paulo Henrique](https://github.com/SousaPHP)
  
 ## 🚀 Funcionalidades Chave
